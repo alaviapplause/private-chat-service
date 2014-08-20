@@ -1,0 +1,8 @@
+package com.applause.chat.dao
+
+import scala.slick.driver.JdbcProfile
+
+trait DbDriver {
+  val driver: JdbcProfile
+  
+}
