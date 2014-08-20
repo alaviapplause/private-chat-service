@@ -2,8 +2,8 @@ package com.applause.chat.model
 
 import scala.slick.driver.PostgresDriver.simple._
 
-case class UserEntity(id: Option[Int] = None, name: String, presenceStatus: Option[String] = Some("Offline")) {
-	val createdAt = System.currentTimeMillis()
+case class UserEntity(name: String, presenceStatus: Option[String] = Some("Offline"), id: Option[Int] = None) {
+	//val createdAt = System.currentTimeMillis()
 }
 
 /*
@@ -21,5 +21,5 @@ class User(tag: Tag) extends Table[UserEntity](tag, "User") {
 	def presenceStatus = column[String]("presenceStatus", O.NotNull)
 
 	// the tupled factory method takes a Tuple and returns a case class, and the unapply extractor method that goes in the opposite direction, returning an Option[Tuple]
-	def * = (id.?, name, presenceStatus.?) <> (UserEntity.tupled, UserEntity.unapply)
+	def * = (name, presenceStatus.?, id.?) <> (UserEntity.tupled, UserEntity.unapply)
 }

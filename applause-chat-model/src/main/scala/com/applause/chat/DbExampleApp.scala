@@ -2,11 +2,11 @@ package com.applause.chat
 
 import scala.slick.driver.PostgresDriver
 import scala.slick.jdbc.JdbcBackend.Database
-
 import com.applause.chat.dao.DbClient
 import com.applause.chat.dao.DbUtils
 import com.applause.chat.model.MessageEntity
 import com.applause.chat.model.UserEntity
+import com.applause.chat.dao.MessageDao
 
 
 object DbExampleApp extends App {
@@ -16,12 +16,12 @@ object DbExampleApp extends App {
     
     db withSession { implicit session =>
 		client.dropCreate
-		val user1 = client.insert(UserEntity(None, "user1"))
-		val user2 = client.insert(UserEntity(None, "user2", Option("Online")))
+		val user1 = client.insert(UserEntity("user1"))
+		val user2 = client.insert(UserEntity("user2", Option("Online")))
 		println("Inserted users")
 		
-		val message1 = client.insert(MessageEntity("hello lalala", user1.id.get, 1, 1))
-		println("Sent message " + message1.text)
+		val message = MessageDao(client).createMessage("hello lalala", user1.id.get, 1)
+		println("Sent message " + message)
 		
 		println("Finished session")
     }
